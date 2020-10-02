@@ -50,6 +50,20 @@ export default class ClickToCopy extends Component {
   }
 
   render() {
+    let UIToRender = <button
+      type='button'
+      className={styles.btnDefault}
+      onClick={this.copyToClipboard}
+    >
+      Copy
+    </button>
+
+    if (this.props.children) {
+      UIToRender = this.props.children({ copy: this.copyToClipboard })
+    } else {
+      UIToRender = this.props.render({ copy: this.copyToClipboard })
+    }
+
     return (
       <form className={styles.reactClickCopy}>
         <div
@@ -75,17 +89,7 @@ export default class ClickToCopy extends Component {
           cols={0}
           readOnly
         />
-        {this.props.render ? (
-          this.props.render({ copy: this.copyToClipboard })
-        ) : (
-          <button
-            type='button'
-            className={styles.btnDefault}
-            onClick={this.copyToClipboard}
-          >
-            Copy
-          </button>
-        )}
+        {UIToRender}
       </form>
     )
   }
